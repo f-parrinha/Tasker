@@ -1,0 +1,26 @@
+<nav class="Navbar">
+    <div class="Navbar-title">TASKER</div>
+
+    <ng-container *ngIf="isAuthenticated">
+        <div class="Navbar-buttons-wrapper ">
+            <div class="Navbar-button-wrapper">
+                <label [routerLink]="'/tasker'" class="Navbar-label">TASKER</label>
+                <div class="Navbar-button">
+                    <fa-icon [icon]="taskerIcon" class="Navbar-icon"></fa-icon>
+                </div>
+            </div>
+            <div class="Navbar-button-wrapper">
+                <label [routerLink]="'/settings'" class="Navbar-label">SETTINGS</label>
+                <div class="Navbar-button">
+                    <fa-icon [icon]="userIcon" class="Navbar-icon"></fa-icon>
+                </div>
+            </div>
+            <div class="Navbar-button-wrapper">
+                <label (click)="onLogOut()" class="Navbar-label">LOG OUT</label>
+                <div class="Navbar-button">
+                    <fa-icon [icon]="logoutIcon" class="Navbar-icon"></fa-icon>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</nav>

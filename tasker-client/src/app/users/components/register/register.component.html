@@ -1,0 +1,32 @@
+<div class="App-widget Register-wrapper">
+    <div class="App-widget-title-wrapper">
+        <div class="App-widget-title">Register</div>
+    </div>
+    <div class="App-widget-body-wrapper">
+        <div class="App-widget-element Register-element">
+            <label class="Register-label-text">Email</label>
+            <input (input)="onEmailChange($event)" class="App-input-transparent Register-input-text" placeholder="Write your email here...">
+        </div>
+        <div class="App-widget-element Register-element">
+            <label class="Register-label-text">Username</label>
+            <input (input)="onUsernameChange($event)" class="App-input-transparent Register-input-text" placeholder="Write your username here...">
+        </div>
+        <div class="App-widget-element Register-element">
+            <label class="Register-label-text">Password</label>
+            <input (input)="onPasswordChange($event)" class="App-input-transparent Register-input-text" placeholder="Write your password here..." type="password">
+        </div>
+        <div class="App-widget-element Register-element">
+            <label class="Register-label-text">First Name</label>
+            <input (input)="onFirstNameChange($event)" class="App-input-transparent Register-input-text" placeholder="Write your first name here...">
+        </div>
+        <div class="App-widget-element Register-element">
+            <label class="Register-label-text">Last Name</label>
+            <input (input)="onLastNameChange($event)" class="App-input-transparent Register-input-text" placeholder="Write your last name here...">
+        </div>
+        <label class="App-error-message">{{errorMessage}}</label>
+        <div class="Register-buttons-wrapper">
+            <button (click)="onSubmit()" class="App-button App-button-success Register-button">REGISTER</button>
+            <button [routerLink]="'/login'" class="App-button App-button-default Register-button">GO TO LOGIN</button>
+        </div>
+    </div>
+</div>

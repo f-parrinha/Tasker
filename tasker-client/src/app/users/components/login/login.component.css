@@ -1,0 +1,30 @@
+.Login-label-text {
+    color: var(--title-text-color);
+    margin-left: 1rem;
+    font-size: 2vh;
+    min-width: 12%;
+    text-align: start;
+}
+
+.Login-element {
+    min-height: 5vh;
+    width: 100%;
+}
+
+.Login-input-text {
+    font-size: 1.8vh;
+    width: 100%;
+    height: 70%;
+}
+
+.Login-button {
+    width: 100%;
+    margin-top: 1rem;
+    font-size: 2vh;
+    font-weight: 800;
+}
+
+.Login-buttons-wrapper {
+    margin-top: 1rem; 
+    width:100%;
+}

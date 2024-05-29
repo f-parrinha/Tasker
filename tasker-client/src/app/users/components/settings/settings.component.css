@@ -1,0 +1,36 @@
+.Settings-wrapper {
+    width: 100%;
+    margin-top: 5vh;
+}
+
+.Settings-title {
+    width: 100%;
+    color: var(--title-text-color);
+    font-size: 2.35vh;
+    text-align: start;
+    padding-bottom: 2vh;
+    border-bottom: 1px solid rgb(21, 21, 22);
+}
+
+.Settings-label-text {
+    color: var(--title-text-color);
+    margin-left: 1rem;
+    font-size: 2vh;
+    min-width: 16%;
+    text-align: start;
+}
+
+.Settings-element {
+    min-height: 5vh;
+}
+
+.Settings-data-text {
+    color: var(--data-text-color);
+    width: 100%;
+    text-align: start;
+    font-size: 1.8vh;
+}
+
+.Settings-data-locked {
+    color: #8d8d91;
+}

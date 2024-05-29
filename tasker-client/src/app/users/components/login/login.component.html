@@ -1,0 +1,20 @@
+<div class="App-widget">
+    <div class="App-widget-title-wrapper">
+        <div class="App-widget-title">LogIn</div>
+    </div>
+    <div class="App-widget-body-wrapper">
+        <div class="App-widget-element Login-element">
+            <label class="Login-label-text">Username</label>
+            <input (input)="onUsernameChange($event)" class="App-input-transparent Login-input-text" placeholder="Write your username here...">
+        </div>
+        <div class="App-widget-element Login-element">
+            <label class="Login-label-text">Password</label>
+            <input (input)="onPasswordChange($event)" class="App-input-transparent Login-input-text" placeholder="Write your password here..." type="password">
+        </div>
+        <label class="App-error-message">{{errorMessage}}</label>
+        <div class="Login-buttons-wrapper">
+            <button (click)="onSubmit()" class="App-button App-button-success Login-button">LOGIN</button>
+            <button [routerLink]="'/register'" class="App-button App-button-default Login-button">CREATE ACCOUNT</button>
+        </div>
+    </div>
+</div>

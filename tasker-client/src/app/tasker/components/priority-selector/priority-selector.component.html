@@ -1,0 +1,8 @@
+<div class='Priority-wrapper'>
+    <div class='Priority-label'>Priority</div>
+    <select #select class='Priority-select' (change)="onChange($event)">
+        <option [value]="values.HIGH" [selected]="initialPriority === values.HIGH">High</option>
+        <option [value]="values.MEDIUM" [selected]="initialPriority === values.MEDIUM">Medium</option>
+        <option [value]="values.LOW" [selected]="initialPriority === values.LOW">Low</option>
+    </select>
+</div>

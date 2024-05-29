@@ -1,0 +1,32 @@
+.Priority-select {
+    color: #797983;
+    background-color:#0e0e18;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #06060e;
+    border-radius: 5px;
+    height: 3vh;
+    width: 8vh;
+    box-shadow: inset black 0 0 0.2vh;
+    font-size: 1.5vh;
+}
+.Priority-icon {
+    border-radius: 5rem;
+    border-style: solid;
+    border-color: #515168;
+    width: 2vh;
+    height: 2vh;
+}
+.Priority-button {
+    position: relative;
+}
+.Priority-label{
+    font-size: 1.75vh;
+    color:#7979ad;
+    margin: 1vh;
+}
+.Priority-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

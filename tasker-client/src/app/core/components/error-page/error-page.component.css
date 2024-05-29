@@ -1,0 +1,13 @@
+.Error-button {
+    width: 100%;
+    margin-top: 4vh;
+    font-size: 2.5vh;
+    font-weight: 600;
+}
+
+.Error-text {
+    font-size: 2vh;
+    margin-top: 3rem;
+    color: var(--title-text-color);
+    text-align: justify;
+}

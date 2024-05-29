@@ -1,0 +1,21 @@
+<div class="App-widget-element">
+    <div #descriptionEl
+        contenteditable="true"
+        [ngStyle]="style" 
+        (blur)="onBlur()" 
+        (focus)="onFocus()" 
+        (input)="onDescriptionChange($event)"
+        class="App-input-transparent Task-input">{{description}}</div>
+    <app-priority-selector (priorityCallback)="onPriorityChange($event)" [initialPriority]="currentPriority"></app-priority-selector>
+    <ng-container *ngIf="isEditing">
+        <app-tasker-button (onClick)="onSubmitReset()" [width]="20" [height]="20" [color]="colors.resetButton">
+            <fa-icon [icon]="icons.faRotateLeft"></fa-icon>
+        </app-tasker-button>
+        <app-tasker-button (onClick)="onSubmitUpdate()" [width]="20" [height]="20" [color]="colors.updateButton">
+            <fa-icon [icon]="icons.faPaperPlane"></fa-icon>
+        </app-tasker-button>
+    </ng-container >
+    <app-tasker-button (onClick)="onSubmitDelete()" [width]="20" [height]="20" [color]="colors.deleteButton">
+        <fa-icon [icon]="icons.faTrash"></fa-icon>
+    </app-tasker-button>
+</div>

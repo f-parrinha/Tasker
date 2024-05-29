@@ -1,0 +1,13 @@
+.Task-input {
+    width: 100%;
+    font-size: 1.8vh;
+    transition: color 0.25s;
+    height: 100%;
+    resize: none;
+    text-align: start;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    min-width: 0; /* Ensure the text can shrink */
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+}

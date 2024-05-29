@@ -1,0 +1,7 @@
+<div class="App-widget-element App-bkg-darker">
+    <input #input [ngStyle]="style" (input)="onInput($event)" class="App-input-transparent Tasker-input" placeholder="Write your new task...">
+    <app-priority-selector #prioritySelector (priorityCallback)="setPriority($event)"></app-priority-selector>
+    <app-tasker-button (onClick)="onSubmitAddTask($event)" [width]="20" [height]="20" [color]="buttonColor">
+        <fa-icon [icon]="icons.faPlus"></fa-icon>
+    </app-tasker-button>
+</div>

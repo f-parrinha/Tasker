@@ -1,0 +1,158 @@
+/** Styled by Francisco Parrinha */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+html, body, #root {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #1d1d25;
+}
+
+
+:root {
+  --title-text-color: #cfd8e4;
+  --error-text-color: #fd3636;
+  --data-text-color: #caa269;
+}
+
+/***************
+ * *MAIN PAGE  *
+ ***************/
+
+.App {
+  position: relative;
+  height: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+.App-body {
+  flex: 1;
+  width: 85%;
+  max-width: 85vh;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 0;
+  padding-top: 8rem;
+}
+
+
+/*********************
+ * *GENERAL CLASSES  *
+ *********************/
+
+/** CORE */
+.App-bkg-darker {
+  background-color: #131318 !important;
+}
+.App-error-message {
+  margin-top: 2rem;
+  color: var(--error-text-color);
+  width: 100%;
+  text-align: justify;
+  font-size: 1.8vh;
+  font-weight: 400;
+}
+
+/** WIDGET */
+.App-widget {
+  border-style: hidden;
+  border-radius: 3rem;
+  padding:2rem 5rem 3.5rem 5rem;
+  background-color: #2a2a31;
+  box-shadow: rgba(0, 0, 0, 0.425) 0 1.5vh 3vh;
+  margin-bottom: 4rem;
+}
+.App-widget-title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.App-widget-title {
+  font-size: 250%;
+  font-weight: 600;
+  text-shadow: rgb(22, 22, 22) 0 0 1rem;
+  color: var(--title-text-color);
+}
+.App-widget-body-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+.App-widget-element {
+  border-style: hidden;
+  border-radius: 1.75rem;
+  background-color: #191922;
+  box-shadow: rgba(0, 0, 0, 0.325) 0 0.5vh 1vh;
+  min-height: 9vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  margin-top: 1rem;
+}
+
+/** BUTTON */
+.App-button {
+  border-radius: 1rem;
+  min-width: 5vh;
+  min-height: 5vh;
+  padding: 1vh;
+  border-style: hidden;
+  transition: background-color 0.2s;
+  color: #dad7d2;
+  font-size: 1.75vh;
+  box-shadow: rgba(0, 0, 0, 0.75) 0 0 1vh;
+}
+.App-button-default {
+  background-color: #6b6b74;
+}
+.App-button-default:hover {
+  background-color: #797983;
+}
+.App-button-default:active {
+  background-color: #62626e;
+}
+.App-button-success {
+  background-color: #307c47;
+}
+.App-button-success:hover {
+  background-color: #36884e;
+}
+.App-button-success:active {
+  background-color: #29703e;
+}
+.App-button-danger {
+  background-color: #af342b;
+}
+.App-button-danger:hover {
+  background-color: #bd3930;
+}
+.App-button-danger:active {
+  background-color: #a1322a;
+}
+
+/** INPUT */
+.App-input-transparent {
+  background: none;
+  outline: none;
+  border-style: hidden;
+  border-radius: 1.75rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  color: var(--data-text-color);
+}
