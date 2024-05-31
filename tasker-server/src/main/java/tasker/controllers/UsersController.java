@@ -1,8 +1,5 @@
 package tasker.controllers;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -13,6 +10,7 @@ import tasker.api.models.UserModel;
 import tasker.api.requests.users.LoginRequest;
 import tasker.api.requests.users.RegisterRequest;
 import tasker.api.requests.users.UpdateRequest;
+import tasker.api.requests.users.ValidatePasswordRequest;
 import tasker.api.resources.User;
 import tasker.api.responses.ApiResponse;
 import tasker.api.responses.DataModelResponse;
@@ -20,8 +18,6 @@ import tasker.api.responses.TokenResponse;
 import tasker.api.services.UsersService;
 import tasker.api.utils.Shell;
 import tasker.api.utils.Utils;
-
-import java.util.Date;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -36,6 +32,10 @@ public class UsersController {
     public static final String LOGIN_SUCCESS_MSG = "Login successful";
     public static final String UPDATE_SUCCESS_MSG = "Update successful";
     public static final String DETAILS_SUCCESS_MSG = "User details successfully retrieved";
+    public static final String WRONG_PASSWORD_MSG = "Wrong password";
+    public static final String VALIDATION_SUCCESS_MSG = "Validation was successfully done";
+    public static final String INVALID_SESSION_TOKEN_MSG = "The session token is no longer valid";
+    public static final String DELETE_SUCCESS_MSG = "User was successfully deleted";
 
     @Autowired
     private UsersService usersService;
@@ -84,15 +84,15 @@ public class UsersController {
             String errorMessage = e.getMessage();
             Shell.getInstance().printError(errorMessage);
             return new ResponseEntity<>(new ApiResponse(errorMessage), HttpStatus.CONFLICT);
-        } catch (NewPasswordIsToShortException e) {
+        } catch (NewPasswordIsToShortException | InvalidEmailException e) {
             String errorMessage = e.getMessage();
             Shell.getInstance().printError(errorMessage);
             return new ResponseEntity<>(new ApiResponse(errorMessage), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping("update")
-    public ResponseEntity<ApiResponse> update(@RequestBody UpdateRequest request) {
+    @PutMapping("update/{username}")
+    public ResponseEntity<ApiResponse> update(@PathVariable String username, @RequestBody UpdateRequest request) {
         try {
             UserModel dataModel = new UserModel(request.username(), request.password(), request.email(),
                     request.firstName(), request.lastName());
@@ -101,7 +101,7 @@ public class UsersController {
         } catch (UserNotAuthorizedException e) {
             String errorMessage = e.getMessage();
             Shell.getInstance().printError(errorMessage);
-            return new ResponseEntity<>(new ApiResponse(errorMessage), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(new ApiResponse(WRONG_PASSWORD_MSG), HttpStatus.FORBIDDEN);
         } catch (InvalidRequestDataException e) {
             String errorMessage = e.getMessage();
             Shell.getInstance().printError(errorMessage);
@@ -114,9 +114,25 @@ public class UsersController {
     }
 
 
-    /*
-     * @TODO Add delete user and get user
-     */
+    @DeleteMapping("delete/{username}")
+    public ResponseEntity<ApiResponse> delete(@PathVariable String username, @RequestHeader("Authorization") String token) {
+        try {
+            usersService.delete(username, token, tokenSecret);
+            return new ResponseEntity<>(new ApiResponse(DELETE_SUCCESS_MSG), HttpStatus.OK);
+        } catch (UserNotAuthorizedException e) {
+            String errorMessage = e.getMessage();
+            Shell.getInstance().printError(errorMessage);
+            return new ResponseEntity<>(new ApiResponse(errorMessage), HttpStatus.FORBIDDEN);
+        } catch (InvalidRequestDataException e) {
+            String errorMessage = e.getMessage();
+            Shell.getInstance().printError(errorMessage);
+            return new ResponseEntity<>(new ApiResponse(errorMessage), HttpStatus.BAD_REQUEST);
+        } catch (UserDoesNotExistException e) {
+            String errorMessage = e.getMessage();
+            Shell.getInstance().printError(errorMessage);
+            return new ResponseEntity<>(new ApiResponse(errorMessage), HttpStatus.NOT_FOUND);
+        }
+    }
 
     @GetMapping("details/{username}")
     public ResponseEntity<ApiResponse> details(@PathVariable String username, @RequestHeader("Authorization") String token) {
@@ -141,8 +157,29 @@ public class UsersController {
     }
 
     @GetMapping("validate/{username}")
-    public ResponseEntity<Void> validate(@RequestHeader("Authorization") String token, @PathVariable String username) {
+    public ResponseEntity<Void> validateToken(@RequestHeader("Authorization") String token, @PathVariable String username) {
         boolean isValid = Utils.validateAuthToken(token, tokenSecret, username);
         return new ResponseEntity<>(isValid ? HttpStatus.NO_CONTENT : HttpStatus.FORBIDDEN);
+    }
+
+    @PostMapping("validate/{username}")
+    public ResponseEntity<ApiResponse> validatePassword(@RequestBody ValidatePasswordRequest request, @PathVariable String username) {
+        try {
+            boolean isValid = usersService.authenticateUser(username, request.password());
+
+            if (!isValid) {
+                return new ResponseEntity<>(new ApiResponse(WRONG_PASSWORD_MSG), HttpStatus.FORBIDDEN);
+            }
+
+            return new ResponseEntity<>(new ApiResponse(VALIDATION_SUCCESS_MSG), HttpStatus.OK);
+        } catch (InvalidRequestDataException e) {
+            String errorMessage = e.getMessage();
+            Shell.getInstance().printError(errorMessage);
+            return new ResponseEntity<>(new ApiResponse(EMPTY_CREDENTIALS_MSG), HttpStatus.BAD_REQUEST);
+        } catch (UserDoesNotExistException e) {
+            String errorMessage = e.getMessage();
+            Shell.getInstance().printError(errorMessage);
+            return new ResponseEntity<>(new ApiResponse(errorMessage), HttpStatus.NOT_FOUND);
+        }
     }
 }

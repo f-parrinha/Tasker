@@ -48,10 +48,16 @@
 .Settings-button {
     width: 100%;
     margin: 1rem;
-    margin-top: 2rem;
+    margin-top: 4vh;
 }
 
 .Settings-modal-menu {
     width: 50vh;
-    height: 25vh;
+    height: 27vh;
+}
+
+.Settings-modal-error-message {
+    width: 100%;
+    margin: 1vh 0 0 0;
+    text-align: start;
 }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ButtonColors } from '../../constants';
+import { ButtonColors } from '../../Constants';
 
 
 

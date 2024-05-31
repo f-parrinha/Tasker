@@ -179,7 +179,7 @@ html, body, #root {
 .App-modal-menu-title {
   display: flex;
   justify-content: space-between;
-  font-size: 200%;
+  font-size: 4vh;
   font-weight: 600;
   text-shadow: rgb(22, 22, 22) 0 0 1rem;
   color: var(--title-text-color);
@@ -193,6 +193,7 @@ html, body, #root {
 }
 .App-modal-text {
   color: var(--data-text-color);
+  font-size: 2vh;
   margin: 1vh 0 1vh 0;
 }
 .App-modal-input {

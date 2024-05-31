@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { Priority } from '../../constants';
+import { Priority } from '../../Constants';
 
 
 @Component({

@@ -4,7 +4,7 @@ import { TaskerButtonComponent } from '../tasker-button/tasker-button.component'
 import { CommonModule } from '@angular/common';
 import { faPaperPlane, faTrash, faRotateLeft, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ButtonColors, TaskInputColor } from '../../constants';
+import { ButtonColors, TaskInputColor } from '../../Constants';
 import { AutosizeModule } from 'ngx-autosize';
 import { TaskModel } from '../../models/TaskModel';
 

@@ -5,10 +5,11 @@
             <div class="App-modal-menu-title">Delete Account</div>
             <div class="App-modal-menu-body">
                 <div class="App-modal-text">Are you sure you want to delete account?</div>
-                <input type="password" class="App-modal-input" placeholder="Enter your password to confirm">
+                <input (input)="onPasswordChange($event)" type="password" class="App-modal-input" placeholder="Enter your password to confirm">
             </div>
+            <div class="App-error-message Settings-modal-error-message">{{errorMessage}}</div>
             <div class="Settings-buttons-wrapper">
-                <button class="App-button App-button-success Settings-button">DELETE</button>
+                <button (click)="submitDelete()" class="App-button App-button-success Settings-button">DELETE</button>
                 <button (click)="toggleDeleteModal(false)" class="App-button App-button-danger Settings-button">CANCEL</button>
             </div>
         </div>
@@ -24,10 +25,11 @@
             <div class="App-modal-menu-title">Update Account</div>
             <div class="App-modal-menu-body">
                 <div class="App-modal-text">Are you sure you want to update your account settings?</div>
-                <input type="password" class="App-modal-input" placeholder="Enter your password to confirm">
+                <input (input)="onPasswordChange($event)" type="password" class="App-modal-input" placeholder="Enter your password to confirm">
             </div>
+            <div class="App-error-message Settings-modal-error-message">{{errorMessage}}</div>
             <div class="Settings-buttons-wrapper">
-                <button class="App-button App-button-success Settings-button">UPDATE</button>
+                <button (click)="submitUpdate()" class="App-button App-button-success Settings-button">UPDATE</button>
                 <button (click)="toggleUpdateModal(false)" class="App-button App-button-danger Settings-button">CANCEL</button>
             </div>
         </div>

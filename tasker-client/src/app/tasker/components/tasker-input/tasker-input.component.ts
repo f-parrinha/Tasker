@@ -4,7 +4,7 @@ import { PrioritySelectorComponent } from '../priority-selector/priority-selecto
 import { CommonModule } from '@angular/common';
 import { IconDefinition, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ButtonColors, Priority, TaskInputColor } from '../../constants';
+import { ButtonColors, Priority, TaskInputColor } from '../../Constants';
 import { TaskModel, TaskModelBuilder } from '../../models/TaskModel';
 
 

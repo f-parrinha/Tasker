@@ -21,9 +21,13 @@ public class UsersService {
     private UsersRepository usersRepository;
 
     @Transactional
-    public void add(UserModel model) throws InvalidRequestDataException, UserAlreadyExistsException, NewPasswordIsToShortException {
+    public void add(UserModel model) throws InvalidRequestDataException, UserAlreadyExistsException, NewPasswordIsToShortException, InvalidEmailException {
         if (model.isDataCorrupt()) {
             throw new InvalidRequestDataException("Create User");
+        }
+
+        if (!model.email().contains("@")) {
+            throw new InvalidEmailException();
         }
 
         if (model.password().length() < MIN_PASSWORD_CHARS) {
@@ -77,14 +81,14 @@ public class UsersService {
         // Update user
         User user = query.get();
         user.setEmail(model.email());
-        user.setFirstName(user.getFirstName());
-        user.setLastName(user.getLastName());
+        user.setFirstName(model.firstName());
+        user.setLastName(model.lastName());
         usersRepository.save(user);
     }
 
     @Transactional
-    public User delete(String username, String password) throws InvalidRequestDataException, UserDoesNotExistException, UserNotAuthorizedException {
-        if (Utils.isStringNull(username) || Utils.isStringNull(password)) {
+    public void delete(String username, String token, String tokenSecret) throws InvalidRequestDataException, UserDoesNotExistException, UserNotAuthorizedException {
+        if (Utils.isStringNull(username) || Utils.isStringNull(token) || Utils.isStringNull(tokenSecret)) {
             throw new InvalidRequestDataException("User Authentication");
         }
 
@@ -95,41 +99,13 @@ public class UsersService {
         }
 
         // Authenticate user
-        if (!authenticateUser(username, password)) {
-            throw new UserNotAuthorizedException("Wrong password");
+        if (!Utils.validateAuthToken(token, tokenSecret, username)) {
+            throw new UserNotAuthorizedException("Invalid session token");
         }
 
         // Delete user
         User user = query.get();
         usersRepository.delete(user);
-        return user;
-    }
-
-    /**
-     * Retrieves user info given its username and password
-     * @param username
-     * @param password
-     * @return the given user
-     * @throws InvalidRequestDataException the request data is corrupt
-     * @throws UserDoesNotExistException the user does not exist in the system
-     * @throws UserNotAuthorizedException the user is not authorized for the procedure
-     */
-    public User get(String username, String password) throws InvalidRequestDataException, UserDoesNotExistException, UserNotAuthorizedException {
-        if (Utils.isStringNull(username) || Utils.isStringNull(password)) {
-            throw new InvalidRequestDataException("User Authentication");
-        }
-
-        Optional<User> query = usersRepository.findById(username);
-        if (query.isEmpty()) {
-            throw new UserDoesNotExistException();
-        }
-
-        // Authenticate user
-        if (!authenticateUser(username, password)) {
-            throw new UserNotAuthorizedException("Wrong password");
-        }
-
-        return query.get();
     }
 
     /**
@@ -143,7 +119,7 @@ public class UsersService {
      * @throws UserNotAuthorizedException the user is not authorized for the procedure
      */
     public User get(String username, String token, String tokenSecret) throws InvalidRequestDataException, UserDoesNotExistException, UserNotAuthorizedException {
-        if (Utils.isStringNull(username) || Utils.isStringNull(token)) {
+        if (Utils.isStringNull(username) || Utils.isStringNull(token) || Utils.isStringNull(tokenSecret)) {
             throw new InvalidRequestDataException("User Authentication");
         }
 
