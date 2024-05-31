@@ -156,3 +156,63 @@ html, body, #root {
   padding-right: 2rem;
   color: var(--data-text-color);
 }
+
+/** MODAL */
+.App-modal {
+  position: fixed;
+  margin: auto;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.App-modal-menu {
+  margin: auto;
+  margin-top: 30vh;
+  background-color: #414147;
+  width: 50vh;
+  height: 35vh;
+  border-radius: 4vh;
+  padding: 5vh;
+}
+.App-modal-menu-title {
+  display: flex;
+  justify-content: space-between;
+  font-size: 200%;
+  font-weight: 600;
+  text-shadow: rgb(22, 22, 22) 0 0 1rem;
+  color: var(--title-text-color);
+}
+.App-modal-menu-body {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: start;
+  margin-top: 1rem;
+}
+.App-modal-text {
+  color: var(--data-text-color);
+  margin: 1vh 0 1vh 0;
+}
+.App-modal-input {
+  margin-top: 1rem;
+  width: 100%;
+  height: 3vh;
+  background-color: #2a2a31;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #191922;
+  border-radius: 2vh;
+  outline-style: solid;
+  outline-color: #6e6e7e00;
+  outline-width: 1px;
+  transition: outline-color 0.25s;
+  color: var(--data-text-color);
+  box-sizing: border-box; 
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.App-modal-input:focus {
+  outline-color: #6e6e7e;
+}

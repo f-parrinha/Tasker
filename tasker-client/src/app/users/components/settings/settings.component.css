@@ -16,7 +16,7 @@
     color: var(--title-text-color);
     margin-left: 1rem;
     font-size: 2vh;
-    min-width: 16%;
+    min-width: 12vh;
     text-align: start;
 }
 
@@ -29,8 +29,29 @@
     width: 100%;
     text-align: start;
     font-size: 1.8vh;
+    padding: 0;
+    transition: 0.25s;
 }
 
 .Settings-data-locked {
     color: #8d8d91;
+}
+
+.Settings-buttons-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+}
+
+.Settings-button {
+    width: 100%;
+    margin: 1rem;
+    margin-top: 2rem;
+}
+
+.Settings-modal-menu {
+    width: 50vh;
+    height: 25vh;
 }

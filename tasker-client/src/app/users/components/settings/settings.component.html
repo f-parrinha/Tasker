@@ -1,3 +1,41 @@
+<!-- Confirm delete account modal -->
+<ng-container *ngIf="deleteModalOn === true">
+    <div class="App-modal">
+        <div class="App-modal-menu Settings-modal-menu">
+            <div class="App-modal-menu-title">Delete Account</div>
+            <div class="App-modal-menu-body">
+                <div class="App-modal-text">Are you sure you want to delete account?</div>
+                <input type="password" class="App-modal-input" placeholder="Enter your password to confirm">
+            </div>
+            <div class="Settings-buttons-wrapper">
+                <button class="App-button App-button-success Settings-button">DELETE</button>
+                <button (click)="toggleDeleteModal(false)" class="App-button App-button-danger Settings-button">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+
+
+<!-- Confirm update account modal -->
+<ng-container *ngIf="updateModalOn === true">
+    <div class="App-modal">
+        <div class="App-modal-menu Settings-modal-menu">
+            <div class="App-modal-menu-title">Update Account</div>
+            <div class="App-modal-menu-body">
+                <div class="App-modal-text">Are you sure you want to update your account settings?</div>
+                <input type="password" class="App-modal-input" placeholder="Enter your password to confirm">
+            </div>
+            <div class="Settings-buttons-wrapper">
+                <button class="App-button App-button-success Settings-button">UPDATE</button>
+                <button (click)="toggleUpdateModal(false)" class="App-button App-button-danger Settings-button">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+
+<!-- Main body for this component -->
 <div class="App-widget">
     <div class="App-widget-title-wrapper">
         <div class="App-widget-title">Settings</div>
@@ -14,15 +52,20 @@
                 </div>
                 <div class="App-widget-element Settings-element">
                     <label class="Settings-label-text">Email</label>
-                    <div class="Settings-data-text">{{email}}</div>
+                    <input [ngStyle]="style" (input)="onEmailChange($event)" class="App-input-transparent Settings-data-text" value="{{currentEmail}}">
                 </div>
                 <div class="App-widget-element Settings-element">
                     <label class="Settings-label-text">First Name</label>
-                    <div class="Settings-data-text">{{firstName}}</div>
+                    <input [ngStyle]="style" (input)="onFirstNameChange($event)" class="App-input-transparent Settings-data-text" value="{{currentFirstName}}">
                 </div>
                 <div class="App-widget-element Settings-element">
                     <label class="Settings-label-text">Last Name</label>
-                    <div class="Settings-data-text">{{lastName}}</div>
+                    <input [ngStyle]="style" (input)="onLastNameChange($event)" class="App-input-transparent Settings-data-text" value="{{currentLastName}}">
+                </div>
+                <div class="Settings-buttons-wrapper">
+                    <button (click)="reset()" class="App-button App-button-success Settings-button">RESET</button>
+                    <button (click)="toggleUpdateModal(true)" class="App-button App-button-default Settings-button">UPDATE</button>
+                    <button (click)="toggleDeleteModal(true)" class="App-button App-button-danger Settings-button">DELETE</button>
                 </div>
             </div>
         </div>
