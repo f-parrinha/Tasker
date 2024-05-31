@@ -9,6 +9,7 @@ import tasker.api.exceptions.TaskDoesNotExistException;
 import tasker.api.models.TaskModel;
 import tasker.api.repositories.TaskerRepository;
 import tasker.api.resources.Task;
+import tasker.api.resources.User;
 import tasker.api.utils.Utils;
 
 import java.util.*;
@@ -28,27 +29,28 @@ public class TaskerService {
      * @throws InvalidRequestDataException there is corrupt data being sent
      */
     @Transactional
-    public List<Task> add(String description, Integer priority) throws InvalidRequestDataException {
+    public List<Task> add(String username, String description, Integer priority) throws InvalidRequestDataException {
         if (Utils.isStringNull(description) || priority == null) {
             throw new InvalidRequestDataException("Add Task");
         }
 
         // Add new task
         Task task = new Task();
+        task.setUsername(username);
         task.setDescription(description);
         task.setPriority(priority);
         taskerRepository.save(task);
-        return getAllTasks();
+        return getAllTasks(username);
     }
 
     @Transactional
-    public List<Task> update(TaskModel model) throws InvalidRequestDataException, TaskDoesNotExistException {
+    public List<Task> update(String username, TaskModel model) throws InvalidRequestDataException, TaskDoesNotExistException {
         if (model.isDataCorrupt()) {
             throw new InvalidRequestDataException("Add Task");
         }
 
         // Check Task existence
-        Optional<Task> query = taskerRepository.findById(model.id());
+        Optional<Task> query = taskerRepository.findByIdAndUsername(model.id(), username);
         if (query.isEmpty()) {
             throw new TaskDoesNotExistException();
         }
@@ -58,32 +60,32 @@ public class TaskerService {
         result.setDescription(model.description());
         result.setPriority(model.priority());
         taskerRepository.save(result);
-        return getAllTasks();
+        return getAllTasks(username);
     }
 
     @Transactional
-    public List<Task> delete(Long id) throws InvalidRequestDataException, TaskDoesNotExistException {
+    public List<Task> delete(String username, Long id) throws InvalidRequestDataException, TaskDoesNotExistException {
         if (id == null) {
             throw new InvalidRequestDataException("Delete Task");
         }
 
         // Check task existence
-        Optional<Task> query = taskerRepository.findById(id);
+        Optional<Task> query = taskerRepository.findByIdAndUsername(id, username);
         if (query.isEmpty()) {
             throw new TaskDoesNotExistException();
         }
 
         taskerRepository.deleteById(id);
-        return getAllTasks();
+        return getAllTasks(username);
     }
 
-    public Task getTask(Long id) throws InvalidRequestDataException, TaskDoesNotExistException {
+    public Task getTask(String username, Long id) throws InvalidRequestDataException, TaskDoesNotExistException {
         if (id == null) {
             throw new InvalidRequestDataException("Get Task");
         }
 
         // Check task existence
-        Optional<Task> query = taskerRepository.findById(id);
+        Optional<Task> query = taskerRepository.findByIdAndUsername(id, username);
         if (query.isEmpty()) {
             throw new TaskDoesNotExistException();
         }
@@ -91,9 +93,9 @@ public class TaskerService {
         return query.get();
     }
 
-    public List<Task>  getAllTasks() {
+    public List<Task>  getAllTasks(String username) {
         Sort sort = Sort.by(Sort.Order.desc("priority"), Sort.Order.asc("description"));
-        Iterator<Task> pointer = taskerRepository.findAll(sort).iterator();
+        Iterator<Task> pointer = taskerRepository.findByUsername(username, sort).iterator();
         List<Task> tasks = new LinkedList<>();
 
         // Add tasks

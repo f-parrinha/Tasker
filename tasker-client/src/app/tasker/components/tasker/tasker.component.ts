@@ -18,13 +18,19 @@ export class TaskerComponent implements OnInit {
   @Input() errorMessage: string;
   public tasks : Array<{id: string, description: string, priority: number}>;
 
-  constructor(private router: Router, private auth: AuthService) {
+  private username: string = "";
+  private token: string = "";
+
+  constructor(private auth: AuthService) {
     this.tasks = [];
     this.errorMessage = "";
   }
 
   async ngOnInit(): Promise<void> {
-    this.onGetTasks();
+    this.username = this.auth.getSessionUser() ?? "";
+    this.token = this.auth.getAuthToken() ?? "";
+
+    this.onGetTasks(); 
   }
 
   
@@ -34,7 +40,7 @@ export class TaskerComponent implements OnInit {
 
   async onGetTasks(): Promise<void>  {
     try {
-      const request = await GetRequest("tasker/tasks");
+      const request = await GetRequest(`tasker/${this.username}/tasks`, this.token);
       const data = await request.json();
 
       if (!request.ok) {
@@ -50,10 +56,10 @@ export class TaskerComponent implements OnInit {
   
   async onAddTask (model: TaskModel): Promise<void>  {
     try {
-      const request = await PostRequest("tasker/add", {
+      const request = await PostRequest(`tasker/${this.username}/add`, {
           description: model.getDescription(),
           priority: model.getPriority()
-      });
+      }, this.token);
       const data = await request.json();
 
       if (!request.ok) {
@@ -69,7 +75,7 @@ export class TaskerComponent implements OnInit {
 
   async onDeleteTask(model: TaskModel): Promise<void>  {
     try {
-      const request = await DeleteRequest(`tasker/delete?id=${model.getId()}`);
+      const request = await DeleteRequest(`tasker/${this.username}/delete?id=${model.getId()}`, this.token);
       const data = await request.json();
 
       if (!request.ok) {
@@ -85,11 +91,11 @@ export class TaskerComponent implements OnInit {
 
   async onUpdateTask(model: TaskModel): Promise<void> {
     try {
-      const request = await PutRequest(`tasker/update`, {
+      const request = await PutRequest(`tasker/${this.username}/update`, {
           id: model.getId(),
           description:  model.getDescription(),
           priority:  model.getPriority()
-      });
+      }, this.token);
       const data = await request.json();
 
       if (!request.ok) {

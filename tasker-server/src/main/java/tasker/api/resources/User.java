@@ -1,7 +1,11 @@
 package tasker.api.resources;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.Set;
 
 @Entity
 public class User {
@@ -12,7 +16,6 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
-
 
     /* Leave empty constructor so that Spring can generate a value to 'id' */
 

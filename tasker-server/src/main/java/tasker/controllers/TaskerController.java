@@ -1,6 +1,7 @@
 package tasker.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import tasker.api.requests.tasks.AddTaskRequest;
 import tasker.api.requests.tasks.UpdateTaskRequest;
 import tasker.api.resources.Task;
 import tasker.api.utils.Shell;
+import tasker.api.utils.Utils;
 
 import java.util.List;
 
@@ -35,11 +37,18 @@ public class TaskerController {
     @Autowired
     private TaskerService taskerService;
 
+    @Value("${jwt.secret}")
+    private String tokenSecret;
 
-    @PostMapping("/add")
-    public ResponseEntity<ApiResponse> add(@RequestBody AddTaskRequest request) {
+
+    @PostMapping("{username}/add")
+    public ResponseEntity<ApiResponse> add(@PathVariable String username, @RequestBody AddTaskRequest request, @RequestHeader("Authorization") String token) {
         try {
-            List<Task> tasks = taskerService.add(request.description(), request.priority());
+            if (!Utils.validateAuthToken(token, tokenSecret, username)) {
+                return new ResponseEntity<>(new ApiResponse("User not authenticated for this operation"), HttpStatus.FORBIDDEN);
+            }
+
+            List<Task> tasks = taskerService.add(username, request.description(), request.priority());
             return new ResponseEntity<>(new TaskListResponse(ADD_SUCCESS_MSG, tasks), HttpStatus.OK);
         } catch (InvalidRequestDataException e) {
             String errorMessage = e.getMessage();
@@ -48,10 +57,14 @@ public class TaskerController {
         }
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<ApiResponse> remove(@RequestParam Long id) {
+    @DeleteMapping("{username}/delete")
+    public ResponseEntity<ApiResponse> remove(@PathVariable String username, @RequestParam Long id, @RequestHeader("Authorization") String token) {
         try {
-            List<Task> tasks = taskerService.delete(id);
+            if (!Utils.validateAuthToken(token, tokenSecret, username)) {
+                return new ResponseEntity<>(new ApiResponse("User not authenticated for this operation"), HttpStatus.FORBIDDEN);
+            }
+
+            List<Task> tasks = taskerService.delete(username, id);
             return new ResponseEntity<>(new TaskListResponse(REMOVE_SUCCESS_MSG, tasks), HttpStatus.OK);
         } catch (InvalidRequestDataException e) {
             String errorMessage = e.getMessage();
@@ -64,11 +77,15 @@ public class TaskerController {
         }
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<ApiResponse> update(@RequestBody UpdateTaskRequest request) {
+    @PutMapping("{username}/update")
+    public ResponseEntity<ApiResponse> update(@PathVariable String username, @RequestBody UpdateTaskRequest request, @RequestHeader("Authorization") String token) {
         try {
+            if (!Utils.validateAuthToken(token, tokenSecret, username)) {
+                return new ResponseEntity<>(new ApiResponse("User not authenticated for this operation"), HttpStatus.FORBIDDEN);
+            }
+
             TaskModel dataModel = new TaskModel(request.id(), request.description(), request.priority());
-            List<Task> tasks = taskerService.update(dataModel);
+            List<Task> tasks = taskerService.update(username, dataModel);
             return new ResponseEntity<>(new TaskListResponse(UPDATE_SUCCESS_MSG, tasks), HttpStatus.OK);
         } catch (TaskDoesNotExistException e) {
             String errorMessage = e.getMessage();
@@ -81,9 +98,13 @@ public class TaskerController {
         }
     }
 
-    @GetMapping("/tasks")
-    public ResponseEntity<ApiResponse> tasks() {
-        List<Task> tasks = taskerService.getAllTasks();
+    @GetMapping("{username}/tasks")
+    public ResponseEntity<ApiResponse> tasks(@PathVariable String username, @RequestHeader("Authorization") String token) {
+        if (!Utils.validateAuthToken(token, tokenSecret, username)) {
+            return new ResponseEntity<>(new ApiResponse("User not authenticated for this operation"), HttpStatus.FORBIDDEN);
+        }
+
+        List<Task> tasks = taskerService.getAllTasks(username);
         return new ResponseEntity<>(new TaskListResponse(GET_ALL_SUCCESS_MSG, tasks), HttpStatus.OK);
     }
 }

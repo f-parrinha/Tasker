@@ -16,7 +16,7 @@ const NO_CONNECTION_TO_SERVER_MSG = "Could not connect to the Tasker server";
  * @param url request url
  * @param body body as JSON object
  */
-async function PostRequest(url: string, body: object, token?: object) {
+async function PostRequest(url: string, body: object, token?: string) {
     let headers: Record<string, string> = {
         'Content-Type': 'application/json',
     };
@@ -40,7 +40,7 @@ async function PostRequest(url: string, body: object, token?: object) {
  * @param url request url
  * @param body body as JSON object
  */
-async function PutRequest(url : string, body : object, token?: object) {
+async function PutRequest(url : string, body : object, token?: string) {
     let headers: Record<string, string> = {
         'Content-Type': 'application/json',
     };
