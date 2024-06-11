@@ -47,6 +47,7 @@ export class TaskerInputComponent {
 
   resetState() {
     this.inputComponent.nativeElement.value = ""
+    this.priority = Priority.LOW;
     this.priorityComponent.reset();
   }
 

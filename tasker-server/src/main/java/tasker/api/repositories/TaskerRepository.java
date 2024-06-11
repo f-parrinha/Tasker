@@ -14,4 +14,5 @@ public interface TaskerRepository extends JpaRepository<Task, Long> {
     List<Task> findAll(Sort sort);
     List<Task> findByUsername(String username, Sort sort);
     Optional<Task> findByIdAndUsername(Long id, String username);
+    void deleteByUsername(String username);
 }

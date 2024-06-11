@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tasker.api.exceptions.*;
 import tasker.api.models.UserModel;
+import tasker.api.repositories.TaskerRepository;
 import tasker.api.repositories.UsersRepository;
 import tasker.api.resources.User;
 import tasker.api.utils.Utils;
@@ -19,6 +20,8 @@ public class UsersService {
 
     @Autowired
     private UsersRepository usersRepository;
+    @Autowired
+    private TaskerRepository taskerRepository;
 
     @Transactional
     public void add(UserModel model) throws InvalidRequestDataException, UserAlreadyExistsException, NewPasswordIsToShortException, InvalidEmailException {
@@ -106,6 +109,7 @@ public class UsersService {
         // Delete user
         User user = query.get();
         usersRepository.delete(user);
+        taskerRepository.deleteByUsername(username);
     }
 
     /**
